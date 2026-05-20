@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: talktalk-faq-bot
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: NAVER_TALK_AUTH_TOKEN
+        sync: false
+      - key: NAVER_TALK_API_URL
+        value: https://gw.talk.naver.com/chatbot/v1/event
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: NOTION_API_TOKEN
+        sync: false
+      - key: NOTION_TABLE_BLOCK_ID
+        sync: false
