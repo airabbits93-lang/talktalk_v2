@@ -180,11 +180,6 @@ async def webhook(request: Request) -> JSONResponse:
     event = body.get("event")
     user_key = body.get("user", "")
 
-    if event == "open":
-        greeting = "안녕하세요! 궁금하신 점을 자유롭게 질문해주세요."
-        await send_naver_reply(user_key, greeting)
-        return JSONResponse({"ok": True})
-
     if event == "send":
         text_content = body.get("textContent") or {}
         user_message = text_content.get("text", "").strip()
