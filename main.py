@@ -208,4 +208,6 @@ async def test_reply(request: Request) -> dict[str, str]:
     body = await request.json()
     user_message = body.get("text", "")
     faq = await fetch_faq_from_notion()
-    return {"reply": await find_answer_with_ai(user_message, faq)}
+    reply = await find_answer_with_ai(user_message, faq)
+    # 테스트는 항상 첫 메시지로 간주해 인사 붙임
+    return {"reply": GREETING + reply}
