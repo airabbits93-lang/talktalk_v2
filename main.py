@@ -24,7 +24,7 @@ ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
 NOTION_API_TOKEN = os.getenv("NOTION_API_TOKEN", "")
 NOTION_TABLE_BLOCK_ID = os.getenv("NOTION_TABLE_BLOCK_ID", "")
 
-DEFAULT_REPLY = "죄송합니다. 해당 문의는 등록되어 있지 않습니다.\n다른 키워드로 다시 문의해주세요."
+DEFAULT_REPLY = "고객님, 문의해주신 내용 확인했습니다.\n해당 내용은 정확한 안내를 위해 담당자 확인이 필요한 부분입니다.\n확인 후 다시 안내드리겠습니다.\n잠시만 기다려 주세요."
 FAQ_CACHE_TTL = 300  # 5분
 
 app = FastAPI(title="Naver TalkTalk FAQ Bot")
@@ -121,7 +121,7 @@ async def find_answer_with_ai(user_message: str, faq: dict[str, str]) -> str:
 
         "# FAQ에 없는 질문\n"
         "FAQ에 없는 내용이라면 정확히 이렇게만 답변하세요: "
-        "\"죄송합니다. 해당 문의는 등록되어 있지 않습니다. 다른 키워드로 다시 문의해주세요.\"\n\n"
+        "\"고객님, 문의해주신 내용 확인했습니다.\n해당 내용은 정확한 안내를 위해 담당자 확인이 필요한 부분입니다.\n확인 후 다시 안내드리겠습니다.\n잠시만 기다려 주세요.\"\n\n"
 
         f"=== FAQ ===\n{faq_text}"
     )
