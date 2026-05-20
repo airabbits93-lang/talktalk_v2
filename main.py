@@ -44,7 +44,7 @@ _faq_cache: dict[str, str] = {}
 _faq_cache_time: float = 0
 
 GREETING = "안녕하세요 케어플리즈입니다.\n"
-GREETING_TIMEOUT = 1800  # 30분 이상 비활성이면 인사 다시 붙임
+GREETING_TIMEOUT = 86400  # 1일 이상 비활성이면 인사 다시 붙임
 _user_last_seen: dict[str, float] = {}
 
 
