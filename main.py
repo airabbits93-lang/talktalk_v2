@@ -43,7 +43,7 @@ _ai_client: anthropic.AsyncAnthropic | None = (
 _faq_cache: dict[str, str] = {}
 _faq_cache_time: float = 0
 
-GREETING = "안녕하세요 케어플리즈입니다.\n"
+GREETING = "안녕하세요 케어플리즈입니다.\n\n"
 GREETING_TIMEOUT = 86400  # 1일 이상 비활성이면 인사 다시 붙임
 _user_last_seen: dict[str, float] = {}
 
@@ -108,6 +108,7 @@ async def find_answer_with_ai(user_message: str, faq: dict[str, str]) -> str:
         "아래 FAQ를 참고하여 고객 질문에 한국어로 친절하고 간결하게 답변하세요. "
         "답변에 **굵게**, *기울임*, # 제목 등 마크다운 서식을 절대 사용하지 마세요. 일반 텍스트로만 작성하세요. "
         "좀 더 자연스럽게 사람이 친절히 말하듯이 답변하세요. "
+        "답변 시작에 '안녕하세요', '안녕하세요!' 등 인사말을 절대 포함하지 마세요. 바로 본론으로 시작하세요. "
         "FAQ에 없는 내용이라면 정확히 이렇게만 답변하세요: "
         "\"죄송합니다. 해당 문의는 등록되어 있지 않습니다. 다른 키워드로 다시 문의해주세요.\"\n\n"
         f"=== FAQ ===\n{faq_text}"
