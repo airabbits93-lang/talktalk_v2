@@ -43,6 +43,10 @@ _ai_client: anthropic.AsyncAnthropic | None = (
 _faq_cache: dict[str, str] = {}
 _faq_cache_time: float = 0
 
+GREETING = "안녕하세요 케어플리즈입니다.\n"
+GREETING_TIMEOUT = 1800  # 30분 이상 비활성이면 인사 다시 붙임
+_user_last_seen: dict[str, float] = {}
+
 
 async def fetch_faq_from_notion() -> dict[str, str]:
     global _faq_cache, _faq_cache_time
@@ -185,6 +189,13 @@ async def webhook(request: Request) -> JSONResponse:
         user_message = text_content.get("text", "").strip()
         faq = await fetch_faq_from_notion()
         reply = await find_answer_with_ai(user_message, faq)
+
+        now = time.time()
+        last_seen = _user_last_seen.get(user_key, 0)
+        if now - last_seen > GREETING_TIMEOUT:
+            reply = GREETING + reply
+        _user_last_seen[user_key] = now
+
         print(f"[webhook] reply sent ({len(reply)} chars)")
         await send_naver_reply(user_key, reply)
         return JSONResponse({"ok": True})
