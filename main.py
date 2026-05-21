@@ -198,8 +198,15 @@ async def webhook(request: Request) -> JSONResponse:
     user_key = body.get("user", "")
 
     if event == "send":
+        # 이미지/파일 등 텍스트가 없는 메시지는 무시
+        if not body.get("textContent"):
+            return JSONResponse({"ok": True})
+
         text_content = body.get("textContent") or {}
         user_message = text_content.get("text", "").strip()
+
+        if not user_message:
+            return JSONResponse({"ok": True})
         faq = await fetch_faq_from_notion()
         reply = await find_answer_with_ai(user_message, faq)
 
